@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/staff.dart';
-import 'staff_api.dart';
+import 'supabase_staff_repository.dart';
 
 class StaffRepository {
   StaffRepository(this._api);
 
-  final StaffApi _api;
+  final SupabaseStaffRepository _api;
 
   Future<List<Staff>> searchByName(String name) {
     return _api.searchStaff(name: name);
@@ -17,6 +17,6 @@ class StaffRepository {
 }
 
 final staffRepositoryProvider = Provider<StaffRepository>((ref) {
-  final api = ref.read(staffApiProvider);
+  final api = ref.read(supabaseStaffRepositoryProvider);
   return StaffRepository(api);
 });

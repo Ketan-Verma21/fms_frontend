@@ -6,65 +6,107 @@ class FilesTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _InfoGrid(
-      title: 'Files',
-      description:
-      'Manage office files: register, assign to shelves, fetch by QR, and view all.',
-      actions: const [
-        _InfoCard(
-          title: 'Register File',
-          subtitle: 'POST /files/',
-          icon: Icons.note_add_outlined,
-          routeName: '/files/register',
-        ),
-        _InfoCard(
-          title: 'Assign File',
-          subtitle: 'POST /files/assign',
-          icon: Icons.swap_horiz_outlined,
-          routeName: '/files/assign',
-        ),
-        _InfoCard(
-          title: 'Get File',
-          subtitle: 'GET /files/:id',
-          icon: Icons.qr_code_scanner_outlined,
-          routeName: '/files/get',
-        ),
-        _InfoCard(
-          title: 'All Files',
-          subtitle: 'GET /files',
-          icon: Icons.list_alt_outlined,
-          routeName: '/files/all',
-        ),
-      ],
-    );
-  }
-}
-class _InfoGrid extends StatelessWidget {
-  const _InfoGrid({
-    required this.title,
-    required this.description,
-    required this.actions,
-  });
-
-  final String title;
-  final String description;
-  final List<_InfoCard> actions;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
+    return Container(
+      color: const Color(0xFFF5F7FA),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 16),
+          // Header Section
+          // Container(
+          //   width: double.infinity,
+          //   color: Colors.white,
+          //   padding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
+          //   child: Column(
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: [
+          //       Row(
+          //         children: [
+          //           Container(
+          //             padding: const EdgeInsets.all(12),
+          //             decoration: BoxDecoration(
+          //               gradient: const LinearGradient(
+          //                 colors: [Color(0xFF4F46E5), Color(0xFF7C3AED)],
+          //                 begin: Alignment.topLeft,
+          //                 end: Alignment.bottomRight,
+          //               ),
+          //               borderRadius: BorderRadius.circular(14),
+          //             ),
+          //             child: const Icon(
+          //               Icons.folder_rounded,
+          //               color: Colors.white,
+          //               size: 28,
+          //             ),
+          //           ),
+          //           const SizedBox(width: 16),
+          //           const Expanded(
+          //             child: Column(
+          //               crossAxisAlignment: CrossAxisAlignment.start,
+          //               children: [
+          //                 Text(
+          //                   'Files',
+          //                   style: TextStyle(
+          //                     fontSize: 24,
+          //                     fontWeight: FontWeight.w700,
+          //                     color: Color(0xFF1A1A2E),
+          //                   ),
+          //                 ),
+          //                 SizedBox(height: 4),
+          //                 Text(
+          //                   'Manage office files and assignments',
+          //                   style: TextStyle(
+          //                     fontSize: 14,
+          //                     color: Colors.grey,
+          //                   ),
+          //                 ),
+          //               ],
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          Container(
+            color: Colors.grey.shade200,
+            height: 1,
+          ),
+          
+          // Actions Grid
           Expanded(
-            child: ListView.builder(
-              itemCount: 4,
-              itemBuilder: (BuildContext context, int index) {
-                return actions[index];
-              },
-
+            child: ListView(
+              padding: const EdgeInsets.all(20),
+              children: const [
+                _InfoCard(
+                  title: 'Register File',
+                  description: 'Create and register new office files',
+                  icon: Icons.note_add_rounded,
+                  routeName: '/files/register',
+                  color: Color(0xFF4F46E5),
+                ),
+                SizedBox(height: 12),
+                _InfoCard(
+                  title: 'Assign File',
+                  description: 'Assign files to shelves via QR',
+                  icon: Icons.qr_code_2_rounded,
+                  routeName: '/files/assign',
+                  color: Color(0xFF10B981),
+                ),
+                SizedBox(height: 12),
+                _InfoCard(
+                  title: 'Get File',
+                  description: 'Fetch file details by scanning',
+                  icon: Icons.qr_code_scanner_rounded,
+                  routeName: '/files/get',
+                  color: Color(0xFF7C3AED),
+                ),
+                SizedBox(height: 12),
+                _InfoCard(
+                  title: 'All Files',
+                  description: 'View and search all registered files',
+                  icon: Icons.list_alt_rounded,
+                  routeName: '/files/all',
+                  color: Color(0xFFF59E0B),
+                ),
+              ],
             ),
           ),
         ],
@@ -72,51 +114,89 @@ class _InfoGrid extends StatelessWidget {
     );
   }
 }
+
 class _InfoCard extends StatelessWidget {
   const _InfoCard({
     required this.title,
-    required this.subtitle,
+    required this.description,
     required this.icon,
     required this.routeName,
+    required this.color,
   });
 
   final String title;
-  final String subtitle;
+  final String description;
   final IconData icon;
   final String routeName;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(16),
-      onTap: () => context.push(routeName),
-      child: Card(
-        shape: RoundedRectangleBorder(
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
           borderRadius: BorderRadius.circular(16),
-        ),
-        elevation: 2,
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            children: [
-              CircleAvatar(
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                foregroundColor: Colors.white,
-                child: Icon(icon),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(title,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16)),
-                  ],
+          onTap: () => context.push(routeName),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              children: [
+                Container(
+                  width: 56,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    color: color.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Icon(
+                    icon,
+                    color: color,
+                    size: 28,
+                  ),
                 ),
-              ),
-            ],
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                          color: Color(0xFF1A1A2E),
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        description,
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Colors.grey.shade600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  color: Colors.grey.shade400,
+                  size: 16,
+                ),
+              ],
+            ),
           ),
         ),
       ),

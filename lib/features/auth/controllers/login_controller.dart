@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/storage/auth_storage.dart';
-import '../data/auth_repository.dart';
+import '../data/supabase_auth_repository.dart';
 import '../models/login_state.dart';
 
 class LoginController extends StateNotifier<LoginState> {
@@ -10,7 +10,7 @@ class LoginController extends StateNotifier<LoginState> {
     _hydrate();
   }
 
-  final AuthRepository _repository;
+  final SupabaseAuthRepository _repository;
   final AuthStorage _storage;
 
   void _hydrate() {
@@ -46,7 +46,7 @@ class LoginController extends StateNotifier<LoginState> {
 final loginControllerProvider =
     StateNotifierProvider<LoginController, LoginState>((ref) {
   return LoginController(
-    ref.watch(authRepositoryProvider),
+    ref.watch(supabaseAuthRepositoryProvider),
     ref.watch(authStorageProvider),
   );
 });

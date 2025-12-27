@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../repository/file_repository.dart';
+import '../repository/supabase_file_repository.dart';
 
 class AssignFileController extends StateNotifier<AsyncValue<bool>> {
-  final FilesRepository repo;
+  final SupabaseFileRepository repo;
 
   AssignFileController(this.repo) : super(const AsyncValue.data(false));
 
@@ -25,7 +25,11 @@ class AssignFileController extends StateNotifier<AsyncValue<bool>> {
 
     state = const AsyncValue.loading();
     try {
-      await repo.assignShelf(scannedFileId!, scannedShelfId!, placedBy);
+      await repo.assignFileToShelf(
+        fileId: scannedFileId!,
+        shelfId: scannedShelfId!,
+        placedBy: placedBy,
+      );
 
       /// Keep SHELF → clear only FILE
       scannedFileId = null;
@@ -43,5 +47,5 @@ class AssignFileController extends StateNotifier<AsyncValue<bool>> {
 
 final assignFileProvider =
 StateNotifierProvider<AssignFileController, AsyncValue<bool>>((ref) {
-  return AssignFileController(ref.watch(filesRepositoryProvider));
+  return AssignFileController(ref.watch(supabaseFileRepositoryProvider));
 });

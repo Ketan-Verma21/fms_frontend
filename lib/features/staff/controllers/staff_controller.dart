@@ -8,29 +8,49 @@ class StaffController extends StateNotifier<StaffState> {
   final StaffRepository _repository;
 
   Future<void> searchByName(String name) async {
+    final trimmedName = name.trim();
+    if (trimmedName.isEmpty) {
+      state = state.copyWith(
+        isLoading: false,
+        error: 'Please enter a name to search',
+        results: [],
+      );
+      return;
+    }
+
     state = state.copyWith(isLoading: true, error: null);
 
     try {
-      final list = await _repository.searchByName(name);
+      final list = await _repository.searchByName(trimmedName);
       state = state.copyWith(isLoading: false, results: list);
     } catch (e) {
       state = state.copyWith(
         isLoading: false,
-        error: 'Failed to fetch staff',
+        error: e.toString().replaceFirst('Exception: ', ''),
       );
     }
   }
 
   Future<void> searchByEmail(String email) async {
+    final trimmedEmail = email.trim();
+    if (trimmedEmail.isEmpty) {
+      state = state.copyWith(
+        isLoading: false,
+        error: 'Please enter an email to search',
+        results: [],
+      );
+      return;
+    }
+
     state = state.copyWith(isLoading: true, error: null);
 
     try {
-      final list = await _repository.searchByEmail(email);
+      final list = await _repository.searchByEmail(trimmedEmail);
       state = state.copyWith(isLoading: false, results: list);
     } catch (e) {
       state = state.copyWith(
         isLoading: false,
-        error: 'Failed to fetch staff',
+        error: e.toString().replaceFirst('Exception: ', ''),
       );
     }
   }
