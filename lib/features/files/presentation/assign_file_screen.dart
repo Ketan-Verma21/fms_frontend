@@ -102,13 +102,17 @@ class _AssignFileScreenState extends ConsumerState<AssignFileScreen> {
                       .read(assignFileProvider.notifier)
                       .assignFile(name);
 
-                  if (mounted && state.hasValue) {
+                  final latest = ref.read(assignFileProvider);
+                  if (mounted && latest.hasValue && !latest.isLoading) {
                     _showSuccessPopup(context);
 
                     /// clear FILE only
                     setState(() {
                       fileId = null;
                     });
+
+                    // reset success flag so subsequent assigns can show again
+                    ref.read(assignFileProvider.notifier).resetStatus();
                   }
                 },
                 child: state.isLoading

@@ -19,15 +19,24 @@ class _AllFilesScreenState extends ConsumerState<AllFilesScreen> {
     final state = ref.watch(filesControllerProvider);
 
     state.whenData((files) {
-      // Load files once
-      if (allFiles.isEmpty) {
-        allFiles = files;
-        filteredFiles = files;
-      }
+      // Keep local lists in sync with latest data
+      allFiles = files;
+      filteredFiles = files;
     });
 
     return Scaffold(
-      appBar: AppBar(title: const Text("All Files")),
+      appBar: AppBar(
+        title: const Text("All Files"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            tooltip: 'Refresh',
+            onPressed: () {
+              ref.read(filesControllerProvider.notifier).refresh();
+            },
+          ),
+        ],
+      ),
       body: Column(
         children: [
           _SearchBar(onSearch: _filterFiles),
@@ -96,11 +105,11 @@ class _FileTile extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    "Shelf: ${file.shelfId ?? 'Not assigned'}",
+                    "Shelf: ${file.shelfId}",
                     style: const TextStyle(color: Colors.black54),
                   ),
                   Text(
-                    "Placed by: ${file.placedBy ?? 'N/A'}",
+                    "Placed by: ${file.placedBy}",
                     style: const TextStyle(color: Colors.black54),
                   ),
                 ],

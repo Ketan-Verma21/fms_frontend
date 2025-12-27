@@ -35,6 +35,10 @@ class AssignFileController extends StateNotifier<AsyncValue<bool>> {
       state = AsyncValue.error(e, st);
     }
   }
+
+  void resetStatus() {
+    state = const AsyncValue.data(false);
+  }
 }
 
 final assignFileProvider =
