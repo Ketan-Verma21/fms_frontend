@@ -2,23 +2,62 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../controllers/shelf_controller.dart';
 
-class ShelfDetailsScreen extends ConsumerWidget {
+class ShelfDetailsScreen extends ConsumerStatefulWidget {
   final String shelfId;
 
   const ShelfDetailsScreen({required this.shelfId, super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final shelfData = ref.watch(shelfDetailsProvider(shelfId));
+  ConsumerState<ShelfDetailsScreen> createState() => _ShelfDetailsScreenState();
+}
+
+class _ShelfDetailsScreenState extends ConsumerState<ShelfDetailsScreen> {
+  bool _hasRefreshed = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Refresh the shelf details when screen opens to get latest data
+    if (!_hasRefreshed) {
+      _hasRefreshed = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          ref.invalidate(shelfDetailsProvider(widget.shelfId));
+        }
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final shelfData = ref.watch(shelfDetailsProvider(widget.shelfId));
 
     return Scaffold(
       backgroundColor: const Color(0xFFF5F7FA),
       appBar: AppBar(
-        title: Text(
-          'Shelf $shelfId',
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 20,
+        title: shelfData.when(
+          data: (shelf) => Text(
+            shelf.description.isNotEmpty ? shelf.description : 'Shelf ${shelf.shelfId}',
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 20,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          loading: () => const Text(
+            'Loading...',
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 20,
+            ),
+          ),
+          error: (_, __) => Text(
+            'Shelf ${widget.shelfId}',
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 20,
+            ),
           ),
         ),
         backgroundColor: Colors.white,
@@ -28,6 +67,15 @@ class ShelfDetailsScreen extends ConsumerWidget {
           icon: const Icon(Icons.arrow_back_rounded),
           onPressed: () => Navigator.pop(context),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh_rounded),
+            tooltip: 'Refresh',
+            onPressed: () {
+              ref.invalidate(shelfDetailsProvider(widget.shelfId));
+            },
+          ),
+        ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
           child: Container(
@@ -37,7 +85,15 @@ class ShelfDetailsScreen extends ConsumerWidget {
         ),
       ),
       body: shelfData.when(
-        data: (shelf) => SingleChildScrollView(
+        data: (shelf) => RefreshIndicator(
+          onRefresh: () async {
+            ref.invalidate(shelfDetailsProvider(widget.shelfId));
+            // Wait for the provider to rebuild
+            await Future.delayed(const Duration(milliseconds: 300));
+          },
+          color: const Color(0xFF4F46E5),
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
           child: Column(
             children: [
               // Shelf Header Card
@@ -280,6 +336,7 @@ class ShelfDetailsScreen extends ConsumerWidget {
 
               const SizedBox(height: 32),
             ],
+          ),
           ),
         ),
         loading: () => const Center(

@@ -14,8 +14,7 @@ Future<void> main() async {
   // await dotenv.load(fileName: ".env");
   // Initialize Supabase
   await Supabase.initialize(
-    url: "",
-    anonKey: "",
+    
   );
 
   final prefs = await SharedPreferences.getInstance();

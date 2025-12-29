@@ -144,25 +144,26 @@ class ShelvesListScreen extends ConsumerWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    shelf.shelfId,
-                                    style: const TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w700,
-                                      color: Color(0xFF1A1A2E),
-                                    ),
-                                  ),
+                                  
                                   if (shelf.description.isNotEmpty) ...[
                                     const SizedBox(height: 4),
                                     Text(
                                       shelf.description,
                                       style: TextStyle(
-                                        fontSize: 13,
-                                        color: Colors.grey.shade600,
-                                      ),
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w700,
+                                      color: Color(0xFF1A1A2E),
+                                    ),
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                     ),
+                                    Text(
+                                    shelf.shelfId,
+                                    style:  TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.grey.shade600,
+                                      ),
+                                  ),
                                   ],
                                   const SizedBox(height: 8),
 
