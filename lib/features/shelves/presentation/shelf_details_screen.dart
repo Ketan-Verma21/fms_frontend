@@ -303,7 +303,7 @@ class _ShelfDetailsScreenState extends ConsumerState<ShelfDetailsScreen> {
                                     const SizedBox(width: 12),
                                     Expanded(
                                       child: Text(
-                                        file.fileId,
+                                        file.description,
                                         style: const TextStyle(
                                           fontWeight: FontWeight.w700,
                                           fontSize: 16,
@@ -313,18 +313,6 @@ class _ShelfDetailsScreenState extends ConsumerState<ShelfDetailsScreen> {
                                     ),
                                   ],
                                 ),
-
-                                if (file.description.isNotEmpty) ...[
-                                  const SizedBox(height: 12),
-                                  Text(
-                                    file.description,
-                                    style: TextStyle(
-                                      color: Colors.grey.shade700,
-                                      fontSize: 14,
-                                      height: 1.4,
-                                    ),
-                                  ),
-                                ],
                               ],
                             ),
                           ),

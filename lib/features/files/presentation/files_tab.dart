@@ -10,61 +10,7 @@ class FilesTab extends StatelessWidget {
       color: const Color(0xFFF5F7FA),
       child: Column(
         children: [
-          // Header Section
-          // Container(
-          //   width: double.infinity,
-          //   color: Colors.white,
-          //   padding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
-          //   child: Column(
-          //     crossAxisAlignment: CrossAxisAlignment.start,
-          //     children: [
-          //       Row(
-          //         children: [
-          //           Container(
-          //             padding: const EdgeInsets.all(12),
-          //             decoration: BoxDecoration(
-          //               gradient: const LinearGradient(
-          //                 colors: [Color(0xFF4F46E5), Color(0xFF7C3AED)],
-          //                 begin: Alignment.topLeft,
-          //                 end: Alignment.bottomRight,
-          //               ),
-          //               borderRadius: BorderRadius.circular(14),
-          //             ),
-          //             child: const Icon(
-          //               Icons.folder_rounded,
-          //               color: Colors.white,
-          //               size: 28,
-          //             ),
-          //           ),
-          //           const SizedBox(width: 16),
-          //           const Expanded(
-          //             child: Column(
-          //               crossAxisAlignment: CrossAxisAlignment.start,
-          //               children: [
-          //                 Text(
-          //                   'Files',
-          //                   style: TextStyle(
-          //                     fontSize: 24,
-          //                     fontWeight: FontWeight.w700,
-          //                     color: Color(0xFF1A1A2E),
-          //                   ),
-          //                 ),
-          //                 SizedBox(height: 4),
-          //                 Text(
-          //                   'Manage office files and assignments',
-          //                   style: TextStyle(
-          //                     fontSize: 14,
-          //                     color: Colors.grey,
-          //                   ),
-          //                 ),
-          //               ],
-          //             ),
-          //           ),
-          //         ],
-          //       ),
-          //     ],
-          //   ),
-          // ),
+          
           Container(
             color: Colors.grey.shade200,
             height: 1,
@@ -91,14 +37,14 @@ class FilesTab extends StatelessWidget {
                   color: Color(0xFF10B981),
                 ),
                 SizedBox(height: 12),
-                _InfoCard(
-                  title: 'Get File',
-                  description: 'Fetch file details by scanning',
-                  icon: Icons.qr_code_scanner_rounded,
-                  routeName: '/files/get',
-                  color: Color(0xFF7C3AED),
-                ),
-                SizedBox(height: 12),
+                // _InfoCard(
+                //   title: 'Get File',
+                //   description: 'Fetch file details by scanning',
+                //   icon: Icons.qr_code_scanner_rounded,
+                //   routeName: '/files/get',
+                //   color: Color(0xFF7C3AED),
+                // ),
+               
                 _InfoCard(
                   title: 'All Files',
                   description: 'View and search all registered files',

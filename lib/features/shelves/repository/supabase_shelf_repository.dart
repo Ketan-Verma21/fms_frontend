@@ -49,7 +49,7 @@ class SupabaseShelfRepository {
     final shelves = (shelvesResponse as List)
         .map((e) => e as Map<String, dynamic>)
         .toList();
-
+    shelves.sort((a, b) => a['description'].compareTo(b['description']));
     // Get all files grouped by shelf_id
     final filesResponse = await _supabase
         .from('office_files')
@@ -116,7 +116,6 @@ class SupabaseShelfRepository {
           );
         })
         .toList();
-
     return Shelf(
       shelfId: response['shelf_id'] as String? ?? '',
       description: response['description'] as String? ?? '',
@@ -142,7 +141,7 @@ class SupabaseShelfRepository {
         .from('office_files')
         .select('file_id, description, placed_by, updated_at')
         .eq('shelf_id', shelfId);
-
+    
     return (filesResponse as List)
         .map((e) => e as Map<String, dynamic>)
         .toList();

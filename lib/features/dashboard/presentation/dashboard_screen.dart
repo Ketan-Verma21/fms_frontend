@@ -1,3 +1,5 @@
+import 'package:feedback/feedback.dart';
+import 'package:feedback_sentry/feedback_sentry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -23,10 +25,7 @@ class DashboardScreen extends ConsumerWidget {
         appBar: AppBar(
           title: const Text(
             'Office File Management',
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 20,
-            ),
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
           ),
           backgroundColor: Colors.white,
           foregroundColor: const Color(0xFF1A1A2E),
@@ -59,33 +58,21 @@ class DashboardScreen extends ConsumerWidget {
                     indicatorSize: TabBarIndicatorSize.tab,
                     tabs: [
                       Tab(
-                        icon: Icon(
-                          Icons.folder_rounded,
-                          size: 22,
-                        ),
+                        icon: Icon(Icons.folder_rounded, size: 22),
                         text: 'Files',
                       ),
                       Tab(
-                        icon: Icon(
-                          Icons.inventory_2_rounded,
-                          size: 22,
-                        ),
+                        icon: Icon(Icons.inventory_2_rounded, size: 22),
                         text: 'Shelves',
                       ),
                       Tab(
-                        icon: Icon(
-                          Icons.people_rounded,
-                          size: 22,
-                        ),
+                        icon: Icon(Icons.people_rounded, size: 22),
                         text: 'Staff',
                       ),
                     ],
                   ),
                 ),
-                Container(
-                  color: Colors.grey.shade200,
-                  height: 1,
-                ),
+                Container(color: Colors.grey.shade200, height: 1),
               ],
             ),
           ),
@@ -93,6 +80,31 @@ class DashboardScreen extends ConsumerWidget {
         body: const TabBarView(
           children: [FilesTab(), ShelvesTab(), StaffTab()],
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: const Color(0xFF4F46E5),
+          foregroundColor: Colors.white,
+          child: Icon(Icons.qr_code_scanner_rounded),
+          onPressed: (){
+            ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: const Row(
+                        children: [
+                          Icon(Icons.info_outline_rounded,
+                              color: Colors.white, size: 20),
+                          SizedBox(width: 12),
+                          Text('Scan functionality coming soon'),
+                        ],
+                      ),
+                      backgroundColor: const Color(0xFF4F46E5),
+                      behavior: SnackBarBehavior.floating,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  );
+                
+          }),
       ),
     );
   }
@@ -149,7 +161,7 @@ class _DashboardDrawer extends ConsumerWidget {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    
+
                     // User name
                     if (staff?.name != null)
                       Text(
@@ -217,6 +229,19 @@ class _DashboardDrawer extends ConsumerWidget {
                         context.push('/about');
                       },
                     ),
+                    _buildDrawerItem(
+                      context: context,
+                      icon: Icons.bug_report_rounded,
+                      title: 'Report Bug',
+                      subtitle: 'Report a bug to the developer',
+                      color: const Color(0xFF7C3AED),
+                      onTap: () {
+                        BetterFeedback.of(context).showAndUploadToSentryWithException(
+                          name: staff?.name ?? '', // optional
+                          email: staff?.email ?? '', // optional
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -226,9 +251,7 @@ class _DashboardDrawer extends ConsumerWidget {
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   color: Colors.grey.shade50,
-                  border: Border(
-                    top: BorderSide(color: Colors.grey.shade200),
-                  ),
+                  border: Border(top: BorderSide(color: Colors.grey.shade200)),
                 ),
                 child: SizedBox(
                   height: 52,
@@ -249,10 +272,7 @@ class _DashboardDrawer extends ConsumerWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
-                          Icons.logout_rounded,
-                          size: 20,
-                        ),
+                        Icon(Icons.logout_rounded, size: 20),
                         const SizedBox(width: 10),
                         const Text(
                           'Sign Out',
@@ -283,9 +303,7 @@ class _DashboardDrawer extends ConsumerWidget {
   }) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
@@ -302,11 +320,7 @@ class _DashboardDrawer extends ConsumerWidget {
                     color: color.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Icon(
-                    icon,
-                    color: color,
-                    size: 22,
-                  ),
+                  child: Icon(icon, color: color, size: 22),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
@@ -348,13 +362,11 @@ class _DashboardDrawer extends ConsumerWidget {
   void _showSignOutDialog(BuildContext context, WidgetRef ref) {
     // Capture the notifier reference before showing the dialog
     final loginNotifier = ref.read(loginControllerProvider.notifier);
-    
+
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Row(
           children: [
             Container(
@@ -372,19 +384,13 @@ class _DashboardDrawer extends ConsumerWidget {
             const SizedBox(width: 12),
             const Text(
               'Sign Out',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 20,
-              ),
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
             ),
           ],
         ),
         content: Text(
           'Are you sure you want to sign out?',
-          style: TextStyle(
-            color: Colors.grey.shade700,
-            fontSize: 15,
-          ),
+          style: TextStyle(color: Colors.grey.shade700, fontSize: 15),
         ),
         actions: [
           TextButton(

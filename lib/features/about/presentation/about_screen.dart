@@ -310,7 +310,7 @@ class AboutScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
-                  '© 2024 Office File Management\nAll rights reserved',
+                  '© 2026 Office File Management\nAll rights reserved\n Developed by @Ketan Verma',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 12,

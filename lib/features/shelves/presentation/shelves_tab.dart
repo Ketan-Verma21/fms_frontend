@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
+import 'package:sentry/sentry.dart';
 class ShelvesTab extends StatelessWidget {
   const ShelvesTab({super.key});
 
@@ -11,11 +11,8 @@ class ShelvesTab extends StatelessWidget {
       child: Column(
         children: [
           // Header Section
-          Container(
-            color: Colors.grey.shade200,
-            height: 1,
-          ),
-          
+          Container(color: Colors.grey.shade200, height: 1),
+
           // Actions List
           Expanded(
             child: ListView(
@@ -90,11 +87,7 @@ class _ActionCard extends StatelessWidget {
                     color: color.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(14),
                   ),
-                  child: Icon(
-                    icon,
-                    color: color,
-                    size: 28,
-                  ),
+                  child: Icon(icon, color: color, size: 28),
                 ),
                 const SizedBox(width: 16),
                 Expanded(

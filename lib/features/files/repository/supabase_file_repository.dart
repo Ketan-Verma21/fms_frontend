@@ -96,7 +96,7 @@ class SupabaseFileRepository {
 
     return (response as List)
         .map((e) => FileModel.fromJson(e as Map<String, dynamic>))
-        .toList();
+        .toList()..sort((a, b) => a.description.compareTo(b.description));
   }
 
   /// Get a single file by its ID (matches GET /files/{file_id})
